@@ -8,6 +8,9 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Base URL for GitHub Pages deployment
+const basename = import.meta.env.BASE_URL || '/';
+
 // Let's use a try-catch to identify any runtime errors
 const App = () => {
   try {
@@ -16,7 +19,7 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+          <BrowserRouter basename={basename}>
             <Routes>
               <Route path="/" element={<Index />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
