@@ -9,6 +9,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   
   return {
+    // Set base to '/' for root deployment or '/repo-name/' for GitHub Pages
+    base: '/',
     server: {
       host: "::",
       port: 8080,
