@@ -14,7 +14,7 @@ const AboutSection = () => {
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
           <div className="space-y-6">
             <div className="glass-strong p-6 sm:p-8 rounded-2xl hover-float">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4 gradient-text-secondary">🎓 Education & Research</h3>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4 gradient-text-secondary">🎓 Education</h3>
               <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
                 Pursuing AI & Data Science at MKCE with expertise in ML, DL, and NLP. 
                 I thrive on connecting research with real-world problem-solving.
@@ -53,7 +53,7 @@ const AboutSection = () => {
 
             <div className="glass-strong p-8 rounded-2xl text-center hover-float">
               <div className="text-6xl mb-4">💡</div>
-              <h3 className="text-2xl font-semibold mb-4 gradient-text-accent">Innovator & Problem Solver</h3>
+              <h3 className="text-2xl font-semibold mb-4 gradient-text-accent">Problem Solver</h3>
               <p className="text-muted-foreground">
                 I don't just solve — I rethink. I create scalable, efficient solutions 
                 that leave lasting impact. Reflected in SIH 2024, SIH 2025, and MSME Hackathon 5.0.

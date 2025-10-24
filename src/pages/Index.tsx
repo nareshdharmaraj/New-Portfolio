@@ -10,10 +10,16 @@ import AchievementsSection from '@/components/AchievementsSection';
 import SkillsSection from '@/components/SkillsSection';
 import ContactSection from '@/components/ContactSection';
 import EnhancedMiniNaresh from '@/components/EnhancedMiniNaresh';
+import TargetCursor from '@/components/TargetCursor';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
+      {/* Target Cursor - Custom animated cursor */}
+      <TargetCursor 
+        spinDuration={2}
+        hideDefaultCursor={true}
+      />
       {/* Interactive Fluid Background - Behind everything */}
       <SplashCursor 
         SIM_RESOLUTION={128}
@@ -42,27 +48,27 @@ const Index = () => {
           <HeroSection />
         </section>
         
-        <section className="w-full py-4 sm:py-8">
+        <section className="w-full py-1 sm:py-2">
           <VisionMissionCards />
         </section>
         
-        <section id="about" className="w-full py-8 sm:py-12 lg:py-16">
+        <section id="about" className="w-full py-2 sm:py-3 lg:py-4">
           <AboutSection />
         </section>
-        
-        <section id="projects" className="w-full py-8 sm:py-12 lg:py-16">
+
+        <section id="projects" className="w-full py-2 sm:py-3 lg:py-4">
           <ProjectsSection />
         </section>
-        
-        <section id="achievements" className="w-full py-8 sm:py-12 lg:py-16">
+
+        <section id="achievements" className="w-full py-2 sm:py-3 lg:py-4">
           <AchievementsSection />
         </section>
-        
-        <section id="skills" className="w-full py-8 sm:py-12 lg:py-16">
+
+        <section id="skills" className="w-full py-2 sm:py-3 lg:py-4">
           <SkillsSection />
         </section>
-        
-        <section id="contact" className="w-full py-8 sm:py-12 lg:py-16">
+
+        <section id="contact" className="w-full py-2 sm:py-3 lg:py-4">
           <ContactSection />
         </section>
       </main>

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 
 const AchievementsSection = () => {
-  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
   const achievements = [
     {
@@ -53,122 +54,110 @@ const AchievementsSection = () => {
   ];
 
   const handleCardClick = (index: number) => {
-    const achievement = achievements[index];
-    if (achievement.type === "Certification" && achievement.certificateImage) {
-      setFlippedCards(prev => 
-        prev.includes(index) 
-          ? prev.filter(i => i !== index)
-          : [...prev, index]
-      );
-    }
+    setExpandedCard(expandedCard === index ? null : index);
   };
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10 sm:mb-12 lg:mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-10 sm:mb-12 lg:mb-16"
+        >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
             <span className="gradient-text">🏆 Achievements</span>
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             Recognition & milestones on my innovation journey
           </p>
-        </div>
+        </motion.div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            {/* Timeline line - Responsive positioning */}
-            <div className="absolute left-6 sm:left-8 lg:left-1/2 transform lg:-translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-primary via-secondary to-accent"></div>
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {achievements.map((achievement, index) => {
+            const isExpanded = expandedCard === index;
             
-            <div className="space-y-12">
-              {achievements.map((achievement, index) => (
-                <div 
-                  key={index} 
-                  className={`relative flex items-center ${
-                    index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                  } flex-col md:space-x-8`}
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="relative"
+              >
+                <motion.div
+                  className="glass-strong rounded-2xl overflow-hidden hover-glow h-full flex flex-col"
+                  whileHover={{ y: -5 }}
+                  transition={{ duration: 0.3 }}
+                  layout
                 >
-                  {/* Timeline dot */}
-                  <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background z-10"></div>
-                  
-                  {/* Content */}
-                  <div className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
-                    <motion.div
-                      className={`glass-strong rounded-2xl hover-float hover-glow overflow-hidden ${
-                        achievement.type === "Certification" ? 'cursor-pointer' : ''
-                      }`}
-                      style={{ perspective: "1000px" }}
-                      onClick={() => handleCardClick(index)}
-                    >
-                      <motion.div
-                        className="relative w-full"
-                        animate={{ rotateY: flippedCards.includes(index) ? 180 : 0 }}
-                        transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        {/* Front of the card */}
-                        <div 
-                          className="w-full p-6"
-                          style={{ backfaceVisibility: "hidden" }}
+                  {/* Card Header */}
+                  <div className="p-6 flex-1">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-3xl">{achievement.icon}</span>
+                      <span className="text-sm text-muted-foreground">{achievement.year}</span>
+                    </div>
+                    
+                    <h3 className="text-xl font-bold mb-3 gradient-text-secondary line-clamp-2">
+                      {achievement.title}
+                    </h3>
+                    
+                    {/* Only show content when expanded */}
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
                         >
-                          <div className="flex items-center gap-3 mb-3">
-                            <span className="text-2xl">{achievement.icon}</span>
-                            <span className="text-sm font-medium text-accent">{achievement.type}</span>
-                            <span className="text-sm text-muted-foreground ml-auto">{achievement.year}</span>
-                            {achievement.type === "Certification" && (
-                              <span className="text-xs text-primary">Click to view certificate</span>
-                            )}
-                          </div>
-                          
-                          <h3 className="text-xl font-semibold mb-2 gradient-text-secondary">
-                            {achievement.title}
-                          </h3>
-                          
-                          <p className="text-muted-foreground leading-relaxed">
+                          <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                             {achievement.description}
                           </p>
-                        </div>
-
-                        {/* Back of the card (for certifications) */}
-                        {achievement.type === "Certification" && achievement.certificateImage && (
-                          <div 
-                            className="absolute inset-0 w-full p-6 flex flex-col items-center justify-center"
-                            style={{ 
-                              backfaceVisibility: "hidden",
-                              transform: "rotateY(180deg)"
-                            }}
-                          >
-                            <div className="text-center mb-4">
-                              <h3 className="text-lg font-semibold gradient-text mb-2">
-                                {achievement.title}
-                              </h3>
-                              <p className="text-sm text-muted-foreground">Certificate Image</p>
-                            </div>
-                            
-                            <div className="w-full max-w-sm h-48 bg-muted/20 rounded-lg flex items-center justify-center border-2 border-dashed border-muted/40">
+                          
+                          {achievement.type === "Certification" && achievement.certificateImage && (
+                            <div className="mt-4 p-4 bg-muted/20 rounded-lg border-2 border-dashed border-muted/40">
                               <div className="text-center">
-                                <span className="text-4xl mb-2 block">📋</span>
-                                <p className="text-sm text-muted-foreground">
+                                <span className="text-3xl mb-2 block">📋</span>
+                                <p className="text-xs text-muted-foreground">
                                   Certificate will be displayed here
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-1">
-                                  (Upload certificate image to content/certificates/)
+                                  (Upload to content/certificates/)
                                 </p>
                               </div>
                             </div>
-                            
-                            <p className="text-xs text-muted-foreground mt-4">
-                              Click again to flip back
-                            </p>
-                          </div>
-                        )}
-                      </motion.div>
-                    </motion.div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
+                  
+                  {/* Type Badge Button - Always at bottom */}
+                  <button
+                    onClick={() => handleCardClick(index)}
+                    className="w-full px-6 py-4 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 hover:from-primary/20 hover:via-secondary/20 hover:to-accent/20 border-t border-primary/20 transition-all duration-300 group"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold gradient-text">
+                        {achievement.type}
+                      </span>
+                      <motion.div
+                        animate={{ rotate: isExpanded ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ChevronDown className="w-5 h-5 text-primary group-hover:text-secondary transition-colors" />
+                      </motion.div>
+                    </div>
+                  </button>
+                </motion.div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

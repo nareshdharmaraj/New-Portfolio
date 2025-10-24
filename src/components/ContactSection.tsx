@@ -143,9 +143,9 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="py-12 sm:py-16 lg:py-20 relative">
+    <section className="py-6 sm:py-8 lg:py-10 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10 sm:mb-12 lg:mb-16">
+        <div className="text-center mb-6 sm:mb-8 lg:mb-10">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
             <span className="gradient-text">📬 Get In Touch</span>
           </h2>
@@ -168,35 +168,81 @@ const ContactSection = () => {
               </p>
               
               <div className="space-y-4">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                {/* Phone */}
+                <a 
+                  href="tel:+917200754566"
+                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                >
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-500/30 transition-colors">
+                    <span className="text-green-400 text-sm sm:text-base">📱</span>
+                  </div>
+                  <div>
+                    <div className="font-medium text-sm sm:text-base">Contact</div>
+                    <div className="text-muted-foreground text-xs sm:text-sm group-hover:text-green-400 transition-colors">+91 7200754566</div>
+                  </div>
+                </a>
+
+                {/* WhatsApp */}
+                <a 
+                  href="https://wa.me/917200754566"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                >
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-600/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-600/30 transition-colors">
+                    <span className="text-green-500 text-sm sm:text-base">💬</span>
+                  </div>
+                  <div>
+                    <div className="font-medium text-sm sm:text-base">WhatsApp</div>
+                    <div className="text-muted-foreground text-xs sm:text-sm group-hover:text-green-500 transition-colors">+91 7200754566</div>
+                  </div>
+                </a>
+                
+                {/* Email */}
+                <a 
+                  href="mailto:2006nareshd@gmail.com"
+                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                >
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
                     <span className="text-primary text-sm sm:text-base">📧</span>
                   </div>
                   <div>
                     <div className="font-medium text-sm sm:text-base">Email</div>
-                    <div className="text-muted-foreground text-xs sm:text-sm break-all">2006nareshd@gmail.com</div>
+                    <div className="text-muted-foreground text-xs sm:text-sm break-all group-hover:text-primary transition-colors">2006nareshd@gmail.com</div>
                   </div>
-                </div>
+                </a>
                 
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-secondary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                {/* LinkedIn */}
+                <a 
+                  href="https://www.linkedin.com/in/nareshdharmaraj"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                >
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-secondary/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/30 transition-colors">
                     <span className="text-secondary text-sm sm:text-base">💼</span>
                   </div>
                   <div>
                     <div className="font-medium text-sm sm:text-base">LinkedIn</div>
-                    <div className="text-muted-foreground text-xs sm:text-sm">www.linkedin.com/in/nareshdharmaraj</div>
+                    <div className="text-muted-foreground text-xs sm:text-sm group-hover:text-secondary transition-colors">www.linkedin.com/in/nareshdharmaraj</div>
                   </div>
-                </div>
+                </a>
                 
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                {/* GitHub */}
+                <a 
+                  href="https://github.com/nareshdharmaraj"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                >
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-accent/30 transition-colors">
                     <span className="text-accent text-sm sm:text-base">🐙</span>
                   </div>
                   <div>
                     <div className="font-medium text-sm sm:text-base">GitHub</div>
-                    <div className="text-muted-foreground text-xs sm:text-sm">https://github.com/nareshdharmaraj</div>
+                    <div className="text-muted-foreground text-xs sm:text-sm group-hover:text-accent transition-colors">github.com/nareshdharmaraj</div>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
 
