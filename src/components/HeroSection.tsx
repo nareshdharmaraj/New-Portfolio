@@ -28,6 +28,7 @@ const HeroSection = () => {
   const profilePhotos = [
     '/profile-photos/profile-1.jpg',
     '/profile-photos/profile-2.jpg',
+    '/profile-photos/profile-3.jpg'
     // Add more photos here as needed
   ];
 

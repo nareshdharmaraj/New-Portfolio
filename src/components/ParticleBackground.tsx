@@ -36,12 +36,12 @@ const ParticleBackground = () => {
     };
 
     // Create initial particles
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 120; i++) {
       setTimeout(() => createParticle(), Math.random() * 2000);
     }
 
     // Create new particles periodically
-    const interval = setInterval(createParticle, 400);
+    const interval = setInterval(createParticle, 250);
 
     return () => {
       clearInterval(interval);

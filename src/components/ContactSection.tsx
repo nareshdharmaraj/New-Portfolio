@@ -145,40 +145,41 @@ const ContactSection = () => {
   return (
     <section className="py-6 sm:py-8 lg:py-10 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-6 sm:mb-8 lg:mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
             <span className="gradient-text">📬 Get In Touch</span>
           </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Let's create the future with AI 🚀
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-start">
-          {/* Contact Info */}
-          <div className="space-y-6 sm:space-y-8">
-            <div className="glass-strong p-6 sm:p-8 rounded-2xl hover-float">
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 gradient-text-secondary">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 items-start">
+          {/* Left Column - Contact Info */}
+          <div className="glass-strong p-4 sm:p-6 rounded-2xl hover-float">
+            <div className="text-center mb-4 sm:mb-5">
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 gradient-text-secondary">
                 Let's Connect
               </h3>
-              <p className="text-muted-foreground mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
+              <p className="text-muted-foreground leading-relaxed text-xs sm:text-sm max-w-md mx-auto">
                 I'm always excited to discuss new opportunities, collaborate on research projects, 
                 or explore innovative AI solutions. Whether you're interested in machine learning 
                 applications, data science consulting, or academic collaboration, I'd love to hear from you.
               </p>
-              
-              <div className="space-y-4">
+            </div>
+            
+            <div className="grid grid-cols-1 gap-2 sm:gap-2.5">
                 {/* Phone */}
                 <a 
                   href="tel:+917200754566"
-                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                  className="flex items-center gap-3 hover:bg-primary/5 p-2.5 rounded-lg transition-all duration-300 cursor-pointer group border border-transparent hover:border-green-500/20"
                 >
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-500/30 transition-colors">
-                    <span className="text-green-400 text-sm sm:text-base">📱</span>
+                  <div className="w-9 h-9 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-500/30 transition-colors">
+                    <span className="text-green-400 text-base">📱</span>
                   </div>
-                  <div>
-                    <div className="font-medium text-sm sm:text-base">Contact</div>
-                    <div className="text-muted-foreground text-xs sm:text-sm group-hover:text-green-400 transition-colors">+91 7200754566</div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-xs sm:text-sm text-foreground">Contact</div>
+                    <div className="text-muted-foreground text-xs group-hover:text-green-400 transition-colors">+91 7200754566</div>
                   </div>
                 </a>
 
@@ -187,28 +188,28 @@ const ContactSection = () => {
                   href="https://wa.me/917200754566"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                  className="flex items-center gap-3 hover:bg-primary/5 p-2.5 rounded-lg transition-all duration-300 cursor-pointer group border border-transparent hover:border-green-600/20"
                 >
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-600/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-600/30 transition-colors">
-                    <span className="text-green-500 text-sm sm:text-base">💬</span>
+                  <div className="w-9 h-9 bg-green-600/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-green-600/30 transition-colors">
+                    <span className="text-green-500 text-base">💬</span>
                   </div>
-                  <div>
-                    <div className="font-medium text-sm sm:text-base">WhatsApp</div>
-                    <div className="text-muted-foreground text-xs sm:text-sm group-hover:text-green-500 transition-colors">+91 7200754566</div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-xs sm:text-sm text-foreground">WhatsApp</div>
+                    <div className="text-muted-foreground text-xs group-hover:text-green-500 transition-colors">+91 7200754566</div>
                   </div>
                 </a>
                 
                 {/* Email */}
                 <a 
                   href="mailto:2006nareshd@gmail.com"
-                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                  className="flex items-center gap-3 hover:bg-primary/5 p-2.5 rounded-lg transition-all duration-300 cursor-pointer group border border-transparent hover:border-primary/20"
                 >
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
-                    <span className="text-primary text-sm sm:text-base">📧</span>
+                  <div className="w-9 h-9 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
+                    <span className="text-primary text-base">📧</span>
                   </div>
-                  <div>
-                    <div className="font-medium text-sm sm:text-base">Email</div>
-                    <div className="text-muted-foreground text-xs sm:text-sm break-all group-hover:text-primary transition-colors">2006nareshd@gmail.com</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-xs sm:text-sm text-foreground">Email</div>
+                    <div className="text-muted-foreground text-xs break-all group-hover:text-primary transition-colors">2006nareshd@gmail.com</div>
                   </div>
                 </a>
                 
@@ -217,14 +218,14 @@ const ContactSection = () => {
                   href="https://www.linkedin.com/in/nareshdharmaraj"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                  className="flex items-center gap-3 hover:bg-primary/5 p-2.5 rounded-lg transition-all duration-300 cursor-pointer group border border-transparent hover:border-secondary/20"
                 >
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-secondary/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/30 transition-colors">
-                    <span className="text-secondary text-sm sm:text-base">💼</span>
+                  <div className="w-9 h-9 bg-secondary/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-secondary/30 transition-colors">
+                    <span className="text-secondary text-base">💼</span>
                   </div>
-                  <div>
-                    <div className="font-medium text-sm sm:text-base">LinkedIn</div>
-                    <div className="text-muted-foreground text-xs sm:text-sm group-hover:text-secondary transition-colors">www.linkedin.com/in/nareshdharmaraj</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-xs sm:text-sm text-foreground">LinkedIn</div>
+                    <div className="text-muted-foreground text-xs truncate group-hover:text-secondary transition-colors">www.linkedin.com/in/nareshdharmaraj</div>
                   </div>
                 </a>
                 
@@ -233,54 +234,102 @@ const ContactSection = () => {
                   href="https://github.com/nareshdharmaraj"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 sm:gap-4 hover:bg-primary/5 p-2 rounded-lg transition-colors cursor-pointer group"
+                  className="flex items-center gap-3 hover:bg-primary/5 p-2.5 rounded-lg transition-all duration-300 cursor-pointer group border border-transparent hover:border-accent/20"
                 >
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-accent/30 transition-colors">
-                    <span className="text-accent text-sm sm:text-base">🐙</span>
+                  <div className="w-9 h-9 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-accent/30 transition-colors">
+                    <span className="text-accent text-base">🐙</span>
                   </div>
-                  <div>
-                    <div className="font-medium text-sm sm:text-base">GitHub</div>
-                    <div className="text-muted-foreground text-xs sm:text-sm group-hover:text-accent transition-colors">github.com/nareshdharmaraj</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-xs sm:text-sm text-foreground">GitHub</div>
+                    <div className="text-muted-foreground text-xs truncate group-hover:text-accent transition-colors">github.com/nareshdharmaraj</div>
                   </div>
                 </a>
-              </div>
-            </div>
 
+                {/* Home Address */}
+                <div className="mt-3 pt-3 border-t border-primary/10">
+                  <div className="flex items-start gap-3 p-2.5 bg-background/30 rounded-lg">
+                    <div className="w-9 h-9 bg-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-orange-400 text-base">📍</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold text-xs sm:text-sm text-foreground mb-1.5">Home Address</div>
+                      <div className="text-muted-foreground text-xs leading-relaxed">
+                        20/2, South Street,<br />
+                        P.Velur (T.K), P.Velur (P.O),<br />
+                        Namakkal (D.t), 638282<br />
+                        Tamil Nadu, India
+                      </div>
+                      <a
+                        href="https://maps.google.com/?q=11.103180253082767,78.00648407449182"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 mt-2 text-xs text-primary hover:text-primary/80 transition-colors font-medium group/map"
+                      >
+                        <span>View on Google Maps</span>
+                        <svg className="w-3 h-3 group-hover/map:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                  
+                  {/* Embedded Map */}
+                  <div className="mt-3 rounded-lg overflow-hidden border border-primary/20 shadow-lg">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3915.1368067755957!2d78.00648407449182!3d11.103180253082767!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTHCsDA2JzExLjQiTiA3OMKwMDAnMzIuNiJF!5e1!3m2!1sen!2sin!4v1761382095232!5m2!1sen!2sin"
+                      width="100%"
+                      height="200"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="w-full"
+                      title="Home Location"
+                    />
+                  </div>
+                  <p className="text-[10px] text-muted-foreground text-center mt-2">
+                    📍 Location accurate within 10 meters
+                  </p>
+                </div>
+              </div>
+          </div>
+
+          {/* Right Column - Response Time and Contact Form */}
+          <div className="space-y-4 sm:space-y-5">
             {/* Quick Stats */}
-            <div className="glass-strong p-6 sm:p-8 rounded-2xl hover-float">
-              <h4 className="text-base sm:text-lg font-semibold mb-4 gradient-text-accent">Response Time</h4>
-              <div className="space-y-3">
-                <div className="flex justify-between text-sm sm:text-base">
+            <div className="glass-strong p-4 sm:p-6 rounded-2xl hover-float">
+              <h4 className="text-sm sm:text-base font-semibold mb-3 sm:mb-4 gradient-text-accent">Response Time</h4>
+              <div className="space-y-2 sm:space-y-2.5">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-muted-foreground">Email Inquiries</span>
                   <span className="text-primary font-medium">24 hours</span>
                 </div>
-                <div className="flex justify-between text-sm sm:text-base">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-muted-foreground">Project Consultations</span>
                   <span className="text-secondary font-medium">48 hours</span>
                 </div>
-                <div className="flex justify-between text-sm sm:text-base">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-muted-foreground">Research Collaborations</span>
                   <span className="text-accent font-medium">1 week</span>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Enhanced Contact Form with EmailJS Integration */}
-          <div className="glass-strong p-6 sm:p-8 rounded-2xl">
-            <div className="mb-6">
-              <h3 className="text-lg sm:text-xl font-semibold gradient-text mb-2">
+            {/* Enhanced Contact Form with EmailJS Integration */}
+            <div className="glass-strong p-4 sm:p-6 rounded-2xl">
+            <div className="mb-4 sm:mb-5">
+              <h3 className="text-base sm:text-lg font-semibold gradient-text mb-1.5">
                 Send Me a Message
               </h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 All fields are required. I'll respond within 24 hours.
               </p>
             </div>
 
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               {/* Name Field - Required */}
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2 text-foreground">
+                <label htmlFor="name" className="block text-xs sm:text-sm font-medium mb-1.5 text-foreground">
                   Full Name <span className="text-destructive">*</span>
                 </label>
                 <Input
@@ -289,7 +338,7 @@ const ContactSection = () => {
                   type="text"
                   value={formData.name}
                   onChange={handleChange}
-                  className="glass border-primary/30 bg-background/50 focus:border-primary/60 transition-colors text-sm sm:text-base"
+                  className="glass border-primary/30 bg-background/50 focus:border-primary/60 transition-colors text-sm"
                   placeholder="Enter your full name"
                   required
                   disabled={isSubmitting}
@@ -298,7 +347,7 @@ const ContactSection = () => {
 
               {/* Email Field - Required */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2 text-foreground">
+                <label htmlFor="email" className="block text-xs sm:text-sm font-medium mb-1.5 text-foreground">
                   Email Address <span className="text-destructive">*</span>
                 </label>
                 <Input
@@ -307,7 +356,7 @@ const ContactSection = () => {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="glass border-primary/30 bg-background/50 focus:border-primary/60 transition-colors"
+                  className="glass border-primary/30 bg-background/50 focus:border-primary/60 transition-colors text-sm"
                   placeholder="your.email@example.com"
                   required
                   disabled={isSubmitting}
@@ -316,7 +365,7 @@ const ContactSection = () => {
 
               {/* Phone Number Field - Required */}
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium mb-2 text-foreground">
+                <label htmlFor="phone" className="block text-xs sm:text-sm font-medium mb-1.5 text-foreground">
                   Phone Number <span className="text-destructive">*</span>
                 </label>
                 <Input
@@ -325,7 +374,7 @@ const ContactSection = () => {
                   type="tel"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="glass border-primary/30 bg-background/50 focus:border-primary/60 transition-colors"
+                  className="glass border-primary/30 bg-background/50 focus:border-primary/60 transition-colors text-sm"
                   placeholder="+1 (555) 123-4567"
                   required
                   disabled={isSubmitting}
@@ -334,7 +383,7 @@ const ContactSection = () => {
 
               {/* Message Field - Required */}
               <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2 text-foreground">
+                <label htmlFor="message" className="block text-xs sm:text-sm font-medium mb-1.5 text-foreground">
                   Message <span className="text-destructive">*</span>
                 </label>
                 <Textarea
@@ -342,7 +391,7 @@ const ContactSection = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  className="glass border-primary/30 bg-background/50 min-h-[120px] focus:border-primary/60 transition-colors resize-none"
+                  className="glass border-primary/30 bg-background/50 min-h-[100px] sm:min-h-[120px] focus:border-primary/60 transition-colors resize-none text-sm"
                   placeholder="Tell me about your project, research interests, or collaboration ideas..."
                   required
                   disabled={isSubmitting}
@@ -407,6 +456,7 @@ const ContactSection = () => {
               </div>
             </form>
           </div>
+        </div>
         </div>
       </div>
     </section>

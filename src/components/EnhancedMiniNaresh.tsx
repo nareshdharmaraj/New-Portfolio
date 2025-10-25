@@ -22,15 +22,60 @@ import {
 import robotImage from '@/assets/robot-companion.png';
 import { sendMessageToAI, ChatMessage } from '@/api/chatApi';
 
+// Custom hook for typing effect
+const useTypingEffect = (text: string, speed: number = 20) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+
+  useEffect(() => {
+    setDisplayedText('');
+    setIsTypingComplete(false);
+    let currentIndex = 0;
+
+    const intervalId = setInterval(() => {
+      if (currentIndex < text.length) {
+        setDisplayedText(text.slice(0, currentIndex + 1));
+        currentIndex++;
+      } else {
+        setIsTypingComplete(true);
+        clearInterval(intervalId);
+      }
+    }, speed);
+
+    return () => clearInterval(intervalId);
+  }, [text, speed]);
+
+  return { displayedText, isTypingComplete };
+};
+
+// Component to render a message with typing effect
+const TypingMessage = ({ content, onComplete }: { content: string; onComplete?: () => void }) => {
+  const { displayedText, isTypingComplete } = useTypingEffect(content, 15);
+
+  useEffect(() => {
+    if (isTypingComplete && onComplete) {
+      onComplete();
+    }
+  }, [isTypingComplete, onComplete]);
+
+  return (
+    <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words">
+      {displayedText}
+      {!isTypingComplete && <span className="animate-pulse">▊</span>}
+    </p>
+  );
+};
+
 // Mini Naresh chat interface with enhanced UI
 const EnhancedMiniNaresh = () => {
   // Core state
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'assistant', content: 'Hi! I\'m Mini Naresh, interact with me to explore my portfolio, projects, skills, and achievements!' }
+    { role: 'assistant', content: 'Hi! 👋 I\'m Naresh\'s AI assistant. I can help you learn about his professional experience, skills, projects, education, and achievements. Feel free to ask me anything about his portfolio!' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [typingMessageIndex, setTypingMessageIndex] = useState<number | null>(null);
   
   // API state
   const [apiKey, setApiKey] = useState<string>('');
@@ -46,9 +91,9 @@ const EnhancedMiniNaresh = () => {
 
   const suggestions = [
     "Tell me about your projects",
-    "What skills do you have?",
-    "Describe your experience as an Innovation Ambassador",
-    "What did you do at IBM Edunet?"
+    "What are your technical skills?",
+    "What is your experience?",
+    "How can I contact you?"
   ];
   
   // Fetch API key from local storage if available
@@ -124,15 +169,22 @@ const EnhancedMiniNaresh = () => {
       const currentMessages = [...messages, userMessage];
       const response = await sendMessageToAI(currentMessages, apiKey);
       
+      // Add a small delay before showing typing effect
       setTimeout(() => {
         setIsTyping(false);
         const aiMessage: ChatMessage = {
           role: 'assistant',
           content: response.response || 'Sorry, I could not generate a response.'
         };
-        setMessages(prev => [...prev, aiMessage]);
+        
+        setMessages(prev => {
+          const newMessages = [...prev, aiMessage];
+          // Set the index of the message that should have typing effect
+          setTypingMessageIndex(newMessages.length - 1);
+          return newMessages;
+        });
         setLastMessageTimestamp(Date.now());
-      }, 1000);
+      }, 800);
 
     } catch (error) {
       setIsTyping(false);
@@ -189,28 +241,20 @@ const EnhancedMiniNaresh = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="mb-4"
+              className="absolute bottom-0 right-0"
             >
-              <Button
+              <motion.div
                 onClick={() => setIsChatOpen(true)}
-                className="relative bg-gradient-primary hover:bg-gradient-primary/90 text-primary-foreground shadow-2xl hover:shadow-primary/30 transition-all duration-300 rounded-full p-3 sm:p-4 group"
-                size="lg"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative cursor-pointer w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 shadow-2xl hover:shadow-primary/30 transition-all duration-300"
               >
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="relative">
-                    <img 
-                      src={robotImage} 
-                      alt="Mini Naresh Bot" 
-                      className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white/30" 
-                    />
-                    <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full border border-white animate-pulse"></div>
-                  </div>
-                  <div className="hidden sm:block">
-                    <span className="font-semibold text-sm sm:text-base">Chat with Mini Naresh</span>
-                  </div>
-                  <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 animate-pulse" />
-                </div>
-              </Button>
+                <img
+                  src="/New-Portfolio/CH4G1APCHW.gif"
+                  alt="Chat with Mini Naresh"
+                  className="w-full h-full object-contain"
+                />
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -259,22 +303,51 @@ const EnhancedMiniNaresh = () => {
               {/* Chat Messages */}
               <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 scrollbar-thin">
                 <AnimatePresence>
-                  {messages.map((message, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                    >
-                      <div className={`max-w-[85%] p-2 sm:p-3 rounded-2xl ${
-                        message.role === 'user' 
-                          ? 'bg-primary text-primary-foreground' 
-                          : 'bg-muted/50 text-foreground border border-primary/10'
-                      }`}>
-                        <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
-                      </div>
-                    </motion.div>
-                  ))}
+                  {messages.map((message, index) => {
+                    const timestamp = new Date().toLocaleTimeString('en-US', { 
+                      hour: '2-digit', 
+                      minute: '2-digit',
+                      hour12: true 
+                    });
+                    
+                    const shouldShowTypingEffect = 
+                      message.role === 'assistant' && 
+                      index === typingMessageIndex;
+                    
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className={`flex flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}
+                      >
+                        <div className={`flex items-center gap-2 mb-1 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                          <span className="text-xs font-semibold text-foreground">
+                            {message.role === 'user' ? 'Me' : 'Naresh'}
+                          </span>
+                        </div>
+                        <div className={`max-w-[85%] sm:max-w-[80%] p-2.5 sm:p-3 rounded-2xl ${
+                          message.role === 'user' 
+                            ? 'bg-primary text-primary-foreground rounded-tr-none' 
+                            : 'bg-muted/50 text-foreground border border-primary/10 rounded-tl-none'
+                        }`}>
+                          {shouldShowTypingEffect ? (
+                            <TypingMessage 
+                              content={message.content} 
+                              onComplete={() => setTypingMessageIndex(null)}
+                            />
+                          ) : (
+                            <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words">
+                              {message.content}
+                            </p>
+                          )}
+                        </div>
+                        <span className="text-[10px] sm:text-xs text-muted-foreground mt-1 px-1">
+                          {timestamp}
+                        </span>
+                      </motion.div>
+                    );
+                  })}
                 </AnimatePresence>
 
                 {/* Typing Indicator */}
@@ -286,14 +359,14 @@ const EnhancedMiniNaresh = () => {
                       exit={{ opacity: 0, y: -10 }}
                       className="flex justify-start"
                     >
-                      <div className="bg-muted/50 border border-primary/10 p-3 rounded-2xl">
-                        <div className="flex items-center gap-1">
+                      <div className="bg-muted/50 border border-primary/10 p-2.5 sm:p-3 rounded-2xl rounded-tl-none">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
                           <div className="flex space-x-1">
-                            <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-bounce"></div>
+                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                           </div>
-                          <span className="text-xs text-muted-foreground ml-2">Mini Naresh is typing...</span>
+                          <span className="text-[10px] sm:text-xs text-muted-foreground">Naresh is typing...</span>
                         </div>
                       </div>
                     </motion.div>
@@ -380,18 +453,24 @@ const EnhancedMiniNaresh = () => {
 
                 {/* Status Indicator */}
                 <div className="mt-2">
-                  {!apiKey && (
-                    <div className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Info className="h-3 w-3" />
-                      <span>Using basic responses. Add API key for enhanced features.</span>
-                    </div>
-                  )}
                   {apiKey && vectorStoreStatus === 'success' && (
                     <div className="text-xs text-green-500 flex items-center gap-1">
                       <CheckCircle2 className="h-3 w-3" />
                       <span>Enhanced AI responses enabled</span>
                     </div>
                   )}
+                </div>
+
+                {/* Disclaimer */}
+                <div className="mt-3 pt-3 border-t border-primary/10">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground text-center leading-relaxed">
+                    <span className="inline-flex items-center gap-1">
+                      <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                      <span>
+                        Responses from Naresh may not be completely accurate and might differ from actual content. Please verify important information.
+                      </span>
+                    </span>
+                  </p>
                 </div>
               </div>
             </motion.div>

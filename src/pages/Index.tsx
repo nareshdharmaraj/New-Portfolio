@@ -42,33 +42,33 @@ const Index = () => {
       {/* Navigation - Fixed at top */}
       <Navigation />
       
-      <main className="relative z-10">
+            <main className="relative z-10">
         {/* Each section has its own container for better responsive control */}
         <section id="hero" className="w-full">
           <HeroSection />
         </section>
         
-        <section className="w-full py-1 sm:py-2">
+        <section className="w-full">
           <VisionMissionCards />
         </section>
         
-        <section id="about" className="w-full py-2 sm:py-3 lg:py-4">
+        <section id="about" className="w-full py-0.5 sm:py-1">
           <AboutSection />
         </section>
 
-        <section id="projects" className="w-full py-2 sm:py-3 lg:py-4">
+        <section id="projects" className="w-full py-0.5 sm:py-1">
           <ProjectsSection />
         </section>
 
-        <section id="achievements" className="w-full py-2 sm:py-3 lg:py-4">
+        <section id="achievements" className="w-full py-0.5 sm:py-1">
           <AchievementsSection />
         </section>
 
-        <section id="skills" className="w-full py-2 sm:py-3 lg:py-4">
+        <section id="skills" className="w-full py-0.5 sm:py-1">
           <SkillsSection />
         </section>
 
-        <section id="contact" className="w-full py-2 sm:py-3 lg:py-4">
+        <section id="contact" className="w-full py-0.5 sm:py-1">
           <ContactSection />
         </section>
       </main>
