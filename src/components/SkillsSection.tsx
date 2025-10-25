@@ -19,8 +19,12 @@ const SkillsSection = () => {
   });
 
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const carouselRef = useRef<NodeJS.Timeout | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const certificatesRef = useRef<HTMLDivElement>(null);
+  const certificatesInView = useInView(certificatesRef, { 
+    once: false,
+    margin: "-100px" 
+  });
 
   const certificates: Certificate[] = [
     {
@@ -35,7 +39,7 @@ const SkillsSection = () => {
       title: "Innovation Ambassador",
       issuedBy: "MOE, IIC",
       year: "2024–25",
-      description: "MKCE - Leading innovation initiatives",
+      description: "Advanced Level Training",
       icon: "👑",
       certificateImage: `${import.meta.env.BASE_URL}certificates/IA Participation Certificate.pdf`
     },
@@ -72,108 +76,52 @@ const SkillsSection = () => {
       certificateImage: `${import.meta.env.BASE_URL}certificates/Business Email.pdf`
     },
     {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
+      title: "Data analysis with python",
+      issuedBy: "Cognitive class AI",
       year: "2024",
-      description: "Webinar Participation",
+      description: "Online course",
       icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
+      certificateImage: `${import.meta.env.BASE_URL}certificates/Data analysis with python.pdf`
     },
     {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
+      title: "Data Visualization",
+      issuedBy: "Cognitive Class AI",
+      year: "2025",
+      description: "Online course",
       icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
+      certificateImage: `${import.meta.env.BASE_URL}certificates/data visualization.pdf`
     },
     {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
+      title: "Describe Azure compute and networking services",
+      issuedBy: "Microsoft",
+      year: "2025",
+      description: "Online course",
       icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
+      certificateImage: `${import.meta.env.BASE_URL}certificates/Describe Azure compute and networking services.pdf`
     },
     {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
+      title: "Describe Azure storage services",
+      issuedBy: "Microsoft",
+      year: "2025",
+      description: "Online Course",
       icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
+      certificateImage: `${import.meta.env.BASE_URL}certificates/Describe Azure storage services- nareshd-3708.pdf`
     },
     {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
+      title: "Describe Cloud Computing",
+      issuedBy: "Microsoft",
+      year: "2025",
+      description: "Online Course",
       icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
+      certificateImage: `${import.meta.env.BASE_URL}certificates/Describe cloud computing - microsoft learn - naresh d.pdf`
     },
     {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
+      title: "Describe cloud service types",
+      issuedBy: "Microsoft",
+      year: "2025",
+      description: "Online courses",
       icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
-    },
-    {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
-      icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
-    },
-    {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
-      icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
-    },
-    {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
-      icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
-    },
-    {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
-      icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
-    },
-    {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
-      icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
-    },
-    {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
-      icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
-    },
-    {
-      title: "AI powered IOT Boot Camp",
-      issuedBy: "NoviTech",
-      year: "2024",
-      description: "Webinar Participation",
-      icon: "🏢",
-      certificateImage: `${import.meta.env.BASE_URL}certificates/ai webinar.pdf`
+      certificateImage: `${import.meta.env.BASE_URL}certificates/Describe cloud service types - microsoft learn - naresh d.pdf`
     }
   ];
 
@@ -213,23 +161,6 @@ const SkillsSection = () => {
       ]
     }
   ];
-
-  // Carousel auto-scroll effect
-  useEffect(() => {
-    carouselRef.current = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % certificates.length);
-    }, 5000); // 5 seconds per slide
-
-    return () => {
-      if (carouselRef.current) {
-        clearInterval(carouselRef.current);
-      }
-    };
-  }, [certificates.length]);
-
-  const handleDotClick = (index: number) => {
-    setCurrentSlide(index);
-  };
 
   const handleViewCertificate = (certificate: Certificate) => {
     setSelectedCertificate(certificate);
@@ -281,80 +212,123 @@ const SkillsSection = () => {
           ))}
         </div>
 
-        {/* Certifications Carousel */}
-        <div className="mt-12 sm:mt-16 -mx-4 sm:-mx-6 lg:-mx-8">
-          <h3 className="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8 text-center gradient-text-secondary px-4 sm:px-6 lg:px-8">📜 Certifications</h3>
+        {/* Certifications Grid */}
+        <div ref={certificatesRef} className="mt-12 sm:mt-16">
+          <motion.h3 
+            className="text-2xl sm:text-3xl font-semibold mb-8 sm:mb-10 text-center gradient-text-secondary"
+            initial={{ opacity: 0, y: 20 }}
+            animate={certificatesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+          >
+            📜 Certifications ({certificates.length}+)
+          </motion.h3>
           
-          <div className="relative w-full overflow-hidden py-4">
-            {/* Scrolling Container */}
-            <motion.div 
-              className="flex gap-6"
-              animate={{
-                x: ['0%', '-33.33%']
-              }}
-              transition={{
-                x: {
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 25,
-                  ease: "linear"
-                }
-              }}
-            >
-              {/* Render certificates three times for seamless infinite loop */}
-              {[...certificates, ...certificates, ...certificates].map((cert, index) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
+            {certificates.map((cert, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={certificatesInView ? { 
+                  opacity: 1, 
+                  scale: 1, 
+                  y: 0 
+                } : { 
+                  opacity: 0, 
+                  scale: 0.8, 
+                  y: 20 
+                }}
+                transition={{
+                  duration: 0.4,
+                  delay: index * 0.05,
+                  type: "spring",
+                  stiffness: 120,
+                  damping: 15
+                }}
+                whileHover={{ 
+                  scale: 1.08,
+                  y: -8,
+                  transition: { duration: 0.2 }
+                }}
+                onHoverStart={() => setHoveredIndex(index)}
+                onHoverEnd={() => setHoveredIndex(null)}
+                className="relative glass-strong p-3 sm:p-4 rounded-lg cursor-pointer group"
+                onClick={() => handleViewCertificate(cert)}
+              >
+                {/* Animated background glow */}
                 <motion.div
-                  key={index}
-                  className="glass-strong p-4 sm:p-5 rounded-xl hover-float flex-shrink-0 w-64 sm:w-72 cursor-pointer"
-                  whileHover={{ scale: 1.05 }}
-                  onClick={() => handleDotClick(index % certificates.length)}
-                >
-                  <div className="text-3xl sm:text-4xl mb-3 text-center">{cert.icon}</div>
-                  <h4 className="text-base sm:text-lg font-bold mb-2 gradient-text text-center line-clamp-2">
-                    {cert.title}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-primary/80 font-medium mb-1 text-center">
-                    Issued by: {cert.issuedBy}
-                  </p>
-                  <p className="text-xs text-muted-foreground/80 mb-2 text-center">
-                    Year: {cert.year}
-                  </p>
-                  <p className="text-xs sm:text-sm text-muted-foreground text-center line-clamp-2 mb-3">
-                    {cert.description}
-                  </p>
-                  
-                  {cert.certificateImage && (
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleViewCertificate(cert);
-                      }}
-                      className="w-full px-4 py-2 bg-gradient-primary text-white rounded-full font-medium text-sm shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                      View Certificate
-                    </motion.button>
-                  )}
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Navigation Dots */}
-            <div className="flex justify-center gap-2 mt-6">
-              {certificates.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleDotClick(index)}
-                  className={`transition-all duration-300 rounded-full ${
-                    currentSlide === index
-                      ? 'w-8 h-2 bg-gradient-primary'
-                      : 'w-2 h-2 bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
+                  className="absolute inset-0 rounded-lg bg-gradient-primary opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300"
+                  animate={hoveredIndex === index ? {
+                    scale: [1, 1.15, 1],
+                  } : {}}
+                  transition={{
+                    duration: 1.5,
+                    repeat: hoveredIndex === index ? Infinity : 0,
+                    ease: "easeInOut"
+                  }}
                 />
-              ))}
-            </div>
+
+                {/* Icon with rotation animation */}
+                <motion.div 
+                  className="text-2xl sm:text-3xl mb-2 text-center"
+                  animate={hoveredIndex === index ? {
+                    rotate: [0, 360],
+                    scale: [1, 1.2, 1]
+                  } : {}}
+                  transition={{
+                    duration: 0.6,
+                    ease: "easeInOut"
+                  }}
+                >
+                  {cert.icon}
+                </motion.div>
+
+                <h4 className="text-xs sm:text-sm font-bold mb-1 gradient-text text-center line-clamp-2 min-h-[2rem]">
+                  {cert.title}
+                </h4>
+                
+                <motion.div
+                  initial={{ opacity: 0.7 }}
+                  animate={{ opacity: hoveredIndex === index ? 1 : 0.7 }}
+                >
+                  <p className="text-[10px] sm:text-xs text-primary/70 font-medium mb-0.5 text-center line-clamp-1">
+                    {cert.issuedBy}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground/60 text-center">
+                    {cert.year}
+                  </p>
+                </motion.div>
+
+                {/* View button with slide-up animation */}
+                <motion.button
+                  initial={{ y: 5, opacity: 0 }}
+                  animate={{ 
+                    y: hoveredIndex === index ? 0 : 5, 
+                    opacity: hoveredIndex === index ? 1 : 0 
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleViewCertificate(cert);
+                  }}
+                  className="w-full mt-2 px-2 py-1.5 bg-gradient-primary text-white rounded-full font-medium text-[10px] sm:text-xs shadow-md hover:shadow-lg transition-all duration-300"
+                >
+                  View
+                </motion.button>
+
+                {/* Corner accent */}
+                <motion.div
+                  className="absolute top-1 right-1 w-4 h-4 border-t border-r border-primary/30 rounded-tr-lg"
+                  animate={hoveredIndex === index ? {
+                    scale: [1, 1.3, 1],
+                  } : {}}
+                  transition={{
+                    duration: 1,
+                    repeat: hoveredIndex === index ? Infinity : 0,
+                  }}
+                />
+              </motion.div>
+            ))}
           </div>
         </div>
 
