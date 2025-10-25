@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { BentoGrid, BentoCard } from './MagicBentoGrid';
 
 const AchievementsSection = () => {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
@@ -75,23 +76,18 @@ const AchievementsSection = () => {
           </p>
         </motion.div>
 
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <BentoGrid className="max-w-5xl mx-auto">
           {achievements.map((achievement, index) => {
             const isExpanded = expandedCard === index;
             
             return (
-              <motion.div
+              <BentoCard
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="relative"
+                delay={index * 0.1}
+                className="h-full"
               >
                 <motion.div
                   className="glass-strong rounded-2xl overflow-hidden hover-glow h-full flex flex-col"
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.3 }}
                   layout
                 >
                   {/* Card Header */}
@@ -155,10 +151,10 @@ const AchievementsSection = () => {
                     </div>
                   </button>
                 </motion.div>
-              </motion.div>
+              </BentoCard>
             );
           })}
-        </div>
+        </BentoGrid>
       </div>
     </section>
   );
