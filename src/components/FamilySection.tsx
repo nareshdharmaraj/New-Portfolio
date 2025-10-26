@@ -125,8 +125,7 @@ const FamilySection = () => {
         >
           <div className="glass p-6 sm:p-8 rounded-2xl max-w-3xl mx-auto border border-primary/20">
             <p className="text-sm sm:text-base lg:text-lg text-muted-foreground italic leading-relaxed">
-              "Their continuous effort, unconditional love, and endless support have been instrumental in every milestone I've achieved. 
-              This portfolio is a testament to their faith in me."
+              "Their continuous effort, unconditional love, and endless support have been instrumental in every milestone I've achieved."
             </p>
             <div className="flex items-center justify-center gap-2 mt-4">
               <Heart className="w-5 h-5 text-red-500 fill-red-500" />
