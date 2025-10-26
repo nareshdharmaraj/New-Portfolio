@@ -1,8 +1,333 @@
-# 🚀 Naresh D - Interactive Portfolio# Robo-Narrator Desk - Enhanced Portfolio with AI Chatbot
+# 🚀 Naresh D - Interactive Portfolio
 
+A modern, interactive portfolio website built with React, TypeScript, and cutting-edge animation technologies.
 
+**Live Demo**: [nareshdharmaraj.github.io/New-Portfolio](https://nareshdharmaraj.github.io/New-Portfolio/)
 
-A modern, interactive portfolio website built with React, TypeScript, and cutting-edge animation technologies.## Features
+---
+
+## ✨ Features
+
+- 🎨 **Interactive WebGL Fluid Background** - Real-time fluid dynamics simulation
+- 🤖 **AI-Powered Chatbot** - Mini Naresh chatbot to explore portfolio content
+- ✨ **Advanced Animations** - Powered by Framer Motion and GSAP
+- 📊 **Scroll Progress Indicator** - Animated horizontal progress bar with particles
+- 🎭 **Glassmorphism UI** - Modern glass-effect components
+- 📱 **Responsive Design** - Mobile-first approach with breakpoint optimizations
+- ⚡ **Performance Optimized** - Hardware-accelerated animations
+- 🎯 **3D Certificate Carousel** - Circular gallery with edge navigation
+- 📧 **Contact Integration** - EmailJS integration for contact form
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion, GSAP
+- **UI Components**: Radix UI + shadcn/ui
+- **Graphics**: WebGL2 for fluid dynamics, OGL for 3D effects
+- **AI Integration**: LangChain + OpenRouter API (optional)
+- **Deployment**: GitHub Pages
+
+---
+
+## 📁 Project Structure
+
+```
+robo-narrator-desk-main/
+├── public/                    # Static assets
+│   ├── certificates/          # Certificate PDFs/images
+│   ├── favicon.ico
+│   └── robots.txt
+├── src/
+│   ├── api/                   # API integrations (optional)
+│   │   ├── chatApi.ts        # AI chatbot responses
+│   │   ├── documentLoader.ts
+│   │   └── vectorStore.ts
+│   ├── components/           # React components
+│   │   ├── ui/              # Reusable UI components (shadcn)
+│   │   ├── AboutSection.tsx
+│   │   ├── AchievementsSection.tsx
+│   │   ├── ContactSection.tsx
+│   │   ├── EnhancedMiniNaresh.tsx  # AI Chatbot
+│   │   ├── HeroSection.tsx
+│   │   ├── Navigation.tsx
+│   │   ├── ParticleBackground.tsx
+│   │   ├── ProjectsSection.tsx
+│   │   ├── SkillsSection.tsx
+│   │   ├── CertificateCarousel.tsx
+│   │   ├── MagicBentoGrid.tsx
+│   │   └── SplashCursor.tsx       # WebGL Fluid
+│   ├── pages/
+│   │   ├── Index.tsx         # Main landing page
+│   │   └── NotFound.tsx      # 404 page
+│   ├── hooks/                # Custom React hooks
+│   ├── lib/                  # Utility functions
+│   ├── main.tsx              # Application entry point
+│   └── index.css             # Global styles
+├── content/                  # Portfolio content (markdown)
+│   ├── personal/
+│   ├── projects/
+│   ├── skills/
+│   ├── experience/
+│   └── education/
+├── index.html               # HTML entry point
+├── package.json
+├── vite.config.ts
+└── tailwind.config.ts
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ or Bun
+- npm, yarn, or bun
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/nareshdharmaraj/New-Portfolio.git
+   cd New-Portfolio
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   # or
+   bun install
+   ```
+
+3. **Start development server**:
+   ```bash
+   npm run dev
+   # or
+   bun run dev
+   ```
+
+   The site will be available at `http://localhost:8080`
+
+4. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+   The build output will be in the `dist/` folder.
+
+5. **Preview production build**:
+   ```bash
+   npm run preview
+   ```
+
+---
+
+## 📝 Customization Guide
+
+### 1. Update Your Information
+
+#### Portfolio Content
+Edit files in `src/components/`:
+- **Projects**: `ProjectsSection.tsx` - Update project details, tech stack, GitHub links
+- **Skills**: `SkillsSection.tsx` - Modify skill categories and proficiency levels
+- **About**: `AboutSection.tsx` - Change bio and introduction
+- **Contact**: `ContactSection.tsx` - Update contact information
+- **Experience**: `AboutSection.tsx` or create separate section
+
+#### Chatbot Responses
+Edit `src/api/chatApi.ts`:
+- Update `PORTFOLIO_INFO` object with your actual data
+- Modify response handlers for different questions
+- Add project-specific responses
+
+### 2. Add Certificates
+
+1. Upload certificate files (PDF, JPG, PNG) to `public/certificates/`
+2. Update certificate list in `src/components/SkillsSection.tsx`:
+   ```typescript
+   const certificates: Certificate[] = [
+     {
+       title: "Your Certificate Name",
+       issuedBy: "Issuing Organization",
+       year: "2025",
+       description: "Brief description",
+       icon: "🏆",
+       certificateImage: `${import.meta.env.BASE_URL}certificates/your-cert.pdf`
+     },
+   ];
+   ```
+
+### 3. Update Meta Tags
+
+Edit `index.html`:
+- Change title, description, keywords
+- Update social media preview images
+- Modify author information
+
+### 4. Customize Colors & Theme
+
+Edit `tailwind.config.ts`:
+- Modify color palette
+- Add custom animations
+- Adjust responsive breakpoints
+
+### 5. Configure Deployment
+
+Edit `vite.config.ts`:
+```typescript
+export default defineConfig({
+  base: '/New-Portfolio/',  // Change to your repo name
+  // ... other config
+});
+```
+
+---
+
+## 🌐 Deployment
+
+### GitHub Pages (Recommended)
+
+1. **Enable GitHub Pages**:
+   - Go to repository Settings → Pages
+   - Source: Select "GitHub Actions"
+   - Save
+
+2. **Automatic Deployment**:
+   - Every push to `main` branch triggers deployment
+   - Wait 2-3 minutes for deployment to complete
+   - Check Actions tab for status
+
+3. **Manual Deployment** (if needed):
+   ```bash
+   npm run build
+   git add dist -f
+   git commit -m "Deploy to GitHub Pages"
+   git subtree push --prefix dist origin gh-pages
+   ```
+
+### Other Platforms
+
+- **Vercel**: Connect your GitHub repo
+- **Netlify**: Drag and drop `dist/` folder
+- **Cloudflare Pages**: Connect via Git integration
+
+---
+
+## 🎨 Key Features Explained
+
+### 1. WebGL Fluid Animation
+Interactive fluid background (`SplashCursor.tsx`):
+- Real-time particle physics
+- Mouse/touch interaction
+- Customizable colors
+
+### 2. AI Chatbot
+Intelligent assistant (`EnhancedMiniNaresh.tsx`):
+- Typing animation effect
+- First-person conversational responses
+- Context-aware answers about portfolio
+
+### 3. 3D Certificate Carousel
+Circular gallery (`CertificateCarousel.tsx`):
+- 3D perspective transforms
+- Edge navigation with animated arrows
+- Drag, scroll, and keyboard support
+- Responsive sizing
+
+### 4. Magic Bento Grid
+Achievement cards (`MagicBentoGrid.tsx`):
+- 3D hover effects
+- Gradient animations
+- Radial glow effects
+
+---
+
+## 📱 Responsive Breakpoints
+
+- **Mobile**: < 640px (sm)
+- **Tablet**: 640px - 1024px (md, lg)
+- **Desktop**: > 1024px (xl, 2xl)
+
+---
+
+## 🎯 Performance Optimizations
+
+- ✅ Code splitting with dynamic imports
+- ✅ Hardware-accelerated animations
+- ✅ Lazy loading components
+- ✅ Optimized WebGL rendering
+- ✅ Image optimization
+- ✅ Minimal bundle size
+
+---
+
+## 🔧 Environment Variables (Optional)
+
+Create a `.env` file for AI chatbot features:
+
+```env
+VITE_OPENROUTER_API_KEY=your_api_key_here
+VITE_OPENROUTER_MODEL=deepseek-coder/deepseek-coder-1.3b-base
+```
+
+**Note**: The chatbot works without API keys using mock responses from `chatApi.ts`.
+
+---
+
+## 📄 Content Management
+
+### Markdown Content Files (Optional)
+The `content/` directory contains markdown files for chatbot knowledge:
+- `content/personal/` - Personal information
+- `content/projects/` - Project descriptions
+- `content/skills/` - Technical skills
+- `content/experience/` - Work experience
+- `content/education/` - Academic background
+
+These are currently templates and not actively used in the main site.
+
+---
+
+## 🚫 Removed Dependencies
+
+This project previously used `lovable-tagger` which has been removed for cleaner builds.
+
+---
+
+## 📄 License
+
+MIT License - Feel free to use this project for your own portfolio!
+
+---
+
+## 👤 Author
+
+**Naresh D**
+- GitHub: [@nareshdharmaraj](https://github.com/nareshdharmaraj)
+- LinkedIn: [linkedin.com/in/nareshdharmaraj](https://www.linkedin.com/in/nareshdharmaraj)
+- Email: 2006nareshd@gmail.com
+- Portfolio: [nareshdharmaraj.github.io/New-Portfolio](https://nareshdharmaraj.github.io/New-Portfolio/)
+
+---
+
+## 🙏 Acknowledgments
+
+- [Framer Motion](https://www.framer.com/motion/) for animations
+- [Radix UI](https://www.radix-ui.com/) for accessible components
+- [shadcn/ui](https://ui.shadcn.com/) for beautiful UI components
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+- [Vite](https://vitejs.dev/) for blazing fast builds
+
+---
+
+**⭐ Star this repository if you find it helpful!**
+
+For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md)
+
 
 
 

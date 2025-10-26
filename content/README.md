@@ -1,29 +1,38 @@
-# README - Content Guidelines
+# Content Directory
 
-## Purpose of This Folder
-This folder contains the knowledge base for the Mini Naresh chatbot. The content in these files will be used to provide accurate and relevant responses about your portfolio, skills, projects, and experience.
+## Purpose
+This folder contains markdown templates for portfolio content. These files serve as knowledge base templates for the AI chatbot (if configured with API keys).
 
-## How to Use These Files
-1. Replace the placeholder text in each file with your actual information
-2. Maintain the Markdown format for better processing
-3. Be as detailed as possible for better chatbot responses
-4. Keep information factual and professional
+## Structure
+- `/personal` - Personal information and bio templates
+- `/projects` - Project description templates
+- `/skills` - Technical skills templates
+- `/experience` - Work experience templates
+- `/education` - Academic background templates
+- `/certificates` - Certificate information templates
 
-## Folder Structure
-- `/personal`: Personal information and response guidelines
-- `/projects`: Detailed information about your projects
-- `/skills`: Your technical and soft skills
-- `/experience`: Work experience and professional roles
-- `/education`: Academic background and achievements
+## Usage
 
-## Adding New Content
-To add new content:
-1. Create a new Markdown (.md) file in the appropriate subfolder
-2. Follow the template structure used in existing files
-3. After adding new content, the system will need to reprocess the documents (this happens automatically when the API key is provided)
+### Current Implementation
+The portfolio currently uses **hardcoded data** in the React components:
+- Projects: `src/components/ProjectsSection.tsx`
+- Skills: `src/components/SkillsSection.tsx`
+- Chatbot: `src/api/chatApi.ts`
 
-## Content Best Practices
-- Be specific and provide concrete examples
-- Include metrics and achievements where possible
-- Maintain a consistent tone and level of detail
-- Avoid sensitive personal information you wouldn't want shared
+### Template Purpose
+These markdown files are:
+1. **Templates** for structuring your portfolio information
+2. **Optional** knowledge base for AI chatbot (requires OpenRouter API key)
+3. **Reference** for organizing portfolio content
+
+### To Update Your Portfolio
+✅ **Edit the React component files directly**, not these markdown templates:
+- `src/components/ProjectsSection.tsx` - Update project details
+- `src/components/SkillsSection.tsx` - Update skills and certificates
+- `src/components/AboutSection.tsx` - Update about information
+- `src/api/chatApi.ts` - Update chatbot responses
+
+❌ **Don't edit** these markdown files unless you're setting up the AI chatbot with API integration.
+
+## Note
+The chatbot works perfectly **without** these files using mock responses from `chatApi.ts`. These markdown files are only needed if you want to use the advanced RAG (Retrieval-Augmented Generation) feature with OpenRouter API.

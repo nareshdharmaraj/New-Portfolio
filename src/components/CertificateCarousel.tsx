@@ -23,8 +23,8 @@ export const CertificateCarousel = ({
   // Calculate positions for circular layout
   const getItemTransform = (index: number) => {
     const position = index - currentIndex;
-    const angle = (position * 18) * (Math.PI / 180); // Reduced from 25 to 18 degrees for closer spacing
-    const radius = 600; // Reduced from 800 for tighter curve
+    const angle = (position * 20) * (Math.PI / 180); // Optimized angle for better spacing
+    const radius = 550; // Optimized radius for perfect curve
     
     const x = Math.sin(angle) * radius;
     const z = Math.cos(angle) * radius - radius;
@@ -32,8 +32,8 @@ export const CertificateCarousel = ({
     
     // Calculate scale and opacity based on position
     const distanceFromCenter = Math.abs(position);
-    const scale = Math.max(0.6, 1 - distanceFromCenter * 0.12); // Improved scaling
-    const opacity = Math.max(0.4, 1 - distanceFromCenter * 0.18); // Better visibility
+    const scale = Math.max(0.65, 1 - distanceFromCenter * 0.1); // Smoother scaling
+    const opacity = Math.max(0.3, 1 - distanceFromCenter * 0.15); // Better fade
     
     return {
       x,
@@ -155,8 +155,8 @@ export const CertificateCarousel = ({
       {/* Carousel Container */}
       <div
         ref={containerRef}
-        className="relative h-[280px] sm:h-[320px] md:h-[350px] lg:h-[380px] cursor-grab active:cursor-grabbing px-4 sm:px-8 md:px-12"
-        style={{ perspective: '1500px' }}
+        className="relative h-[300px] sm:h-[340px] md:h-[360px] lg:h-[400px] cursor-grab active:cursor-grabbing px-4 sm:px-8 md:px-12"
+        style={{ perspective: '1800px' }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -166,6 +166,7 @@ export const CertificateCarousel = ({
         <div className="relative w-full h-full flex items-center justify-center">
           {children.map((child, index) => {
             const transform = getItemTransform(index);
+            const isCenter = index === currentIndex;
             
             return (
               <motion.div
@@ -185,11 +186,13 @@ export const CertificateCarousel = ({
                 }}
                 transition={{
                   type: 'spring',
-                  stiffness: 120,
-                  damping: 25,
-                  mass: 0.8
+                  stiffness: 100,
+                  damping: 20,
+                  mass: 0.5,
+                  duration: 0.6
                 }}
                 onClick={() => setCurrentIndex(index)}
+                whileHover={!isCenter ? { scale: transform.scale * 1.05 } : {}}
               >
                 <div style={{ zIndex: transform.zIndex }}>
                   {child}

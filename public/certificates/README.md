@@ -1,53 +1,51 @@
 # Certificates Folder
 
-## Instructions for Uploading Certificates
+## Instructions
 
-Please upload your certificate files to this folder. The certificates section now supports both **PDF** and **image** formats (PNG, JPG, etc.).
+Upload your certificate files (PDF, JPG, PNG) to this folder. The certificates are displayed in the Skills section with a 3D circular carousel.
 
-### File Naming Convention
+## How to Add Certificates
 
-Upload your certificates with the following names (or update the paths in `SkillsSection.tsx` accordingly):
+1. **Upload Files**: Add your certificate PDFs or images to this folder
 
-1. **Patent Certificate**
-   - File name: `patent-certificate.pdf` (or `.png`, `.jpg`)
-   - Currently configured for: Patent Filed - Smart Helmet
-
-2. **Innovation Ambassador Certificate**
-   - File name: `innovation-ambassador.pdf` (or `.png`, `.jpg`)
-   - Currently configured for: IIC Innovation Ambassador
-
-3. **IBM Internship Certificate**
-   - File name: `ibm-internship.pdf` (or `.png`, `.jpg`)
-   - Currently configured for: IBM Edunet Foundation Internship
-
-### How to Update Certificate Paths
-
-If you want to use different file names, update the `certificateImage` property in `src/components/SkillsSection.tsx`:
+2. **Update Component**: Edit `src/components/SkillsSection.tsx` and add to the `certificates` array:
 
 ```tsx
 const certificates: Certificate[] = [
   {
-    title: "Patent Filed - Smart Helmet",
-    issuedBy: "Government of India Patent Office",
-    year: "2024",
-    description: "Emergency alert system, under review",
-    icon: "📜",
-    certificateImage: "/certificates/your-file-name.pdf" // Change this
+    title: "Your Certificate Name",
+    issuedBy: "Issuing Organization",
+    year: "2025",
+    description: "Brief description",
+    icon: "🏆",  // Choose an emoji icon
+    certificateImage: `${import.meta.env.BASE_URL}certificates/your-file-name.pdf`
   },
-  // ... other certificates
+  // ... more certificates
 ];
 ```
 
-### Supported Formats
+## Supported Formats
 
-- **PDF files**: Will be displayed in an embedded iframe viewer
-- **Image files**: PNG, JPG, JPEG - Will be displayed as responsive images
+- **PDF files**: Displayed in iframe viewer
+- **Image files**: PNG, JPG, JPEG - Displayed as images
 
-### Features
+## Features
 
-✅ Auto-scrolling carousel (5 seconds per certificate)  
-✅ Pause on hover  
-✅ Manual navigation with dots  
+✅ 3D Circular carousel with edge navigation  
+✅ Drag, scroll, and keyboard navigation  
+✅ Animated arrow buttons  
+✅ Responsive design  
+✅ Click to view full certificate  
+
+## File Naming
+
+Use descriptive names with hyphens:
+- `innovation-ambassador-foundation.pdf`
+- `ibm-internship-certificate.pdf`
+- `data-science-certification.jpg`
+
+Keep filenames lowercase with hyphens for consistency.
+
 ✅ "View Certificate" button  
 ✅ Full-screen popup modal  
 ✅ Responsive design  

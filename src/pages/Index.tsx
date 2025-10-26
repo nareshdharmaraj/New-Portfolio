@@ -8,6 +8,7 @@ import AboutSection from '@/components/AboutSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import AchievementsSection from '@/components/AchievementsSection';
 import SkillsSection from '@/components/SkillsSection';
+import FamilySection from '@/components/FamilySection';
 import ContactSection from '@/components/ContactSection';
 import EnhancedMiniNaresh from '@/components/EnhancedMiniNaresh';
 import TargetCursor from '@/components/TargetCursor';
@@ -68,6 +69,10 @@ const Index = () => {
           <SkillsSection />
         </section>
 
+        <section id="family" className="w-full py-0.5 sm:py-1">
+          <FamilySection />
+        </section>
+
         <section id="contact" className="w-full py-0.5 sm:py-1">
           <ContactSection />
         </section>
@@ -79,7 +84,7 @@ const Index = () => {
       <footer className="py-6 sm:py-8 border-t border-white/10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-sm sm:text-base text-muted-foreground">
-            © 2025 Naresh D. Built with passion for innovation and technology.
+            Built by NARESH D with passion for Self Branding.
           </p>
         </div>
       </footer>

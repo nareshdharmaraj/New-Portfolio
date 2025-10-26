@@ -3,8 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Loader2, CheckCircle2, AlertCircle, XCircle, Check } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // EmailJS configuration - Replace with your actual keys
 const EMAILJS_CONFIG = {
@@ -25,6 +26,14 @@ const ContactSection = () => {
     message: ''
   });
   
+  // Validation state for each field
+  const [fieldValidation, setFieldValidation] = useState({
+    name: { isValid: false, isTouched: false, error: '' },
+    email: { isValid: false, isTouched: false, error: '' },
+    phone: { isValid: false, isTouched: false, error: '' },
+    message: { isValid: false, isTouched: false, error: '' }
+  });
+  
   // UI state for form submission
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -36,17 +45,97 @@ const ContactSection = () => {
   const { toast } = useToast();
 
   /**
+   * Validate individual field
+   */
+  const validateField = (name: string, value: string): { isValid: boolean; error: string } => {
+    switch (name) {
+      case 'name': {
+        if (!value.trim()) {
+          return { isValid: false, error: 'Name is required' };
+        }
+        if (value.trim().length < 2) {
+          return { isValid: false, error: 'Name must be at least 2 characters' };
+        }
+        if (!/^[a-zA-Z\s]+$/.test(value)) {
+          return { isValid: false, error: 'Name should only contain letters' };
+        }
+        return { isValid: true, error: '' };
+      }
+        
+      case 'email': {
+        if (!value.trim()) {
+          return { isValid: false, error: 'Email is required' };
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          return { isValid: false, error: 'Please enter a valid email address' };
+        }
+        return { isValid: true, error: '' };
+      }
+        
+      case 'phone': {
+        if (!value.trim()) {
+          return { isValid: false, error: 'Phone number is required' };
+        }
+        const phoneRegex = /^[\d\s\-+()]+$/;
+        if (!phoneRegex.test(value)) {
+          return { isValid: false, error: 'Please enter a valid phone number' };
+        }
+        const digitsOnly = value.replace(/\D/g, '');
+        if (digitsOnly.length < 10) {
+          return { isValid: false, error: 'Phone number must be at least 10 digits' };
+        }
+        return { isValid: true, error: '' };
+      }
+        
+      case 'message': {
+        if (!value.trim()) {
+          return { isValid: false, error: 'Message is required' };
+        }
+        if (value.trim().length < 10) {
+          return { isValid: false, error: 'Message must be at least 10 characters' };
+        }
+        if (value.trim().length > 1000) {
+          return { isValid: false, error: 'Message must not exceed 1000 characters' };
+        }
+        return { isValid: true, error: '' };
+      }
+        
+      default:
+        return { isValid: false, error: '' };
+    }
+  };
+
+  /**
    * Handle form submission with EmailJS integration
    * Captures current date/time and sends email with all form data
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate required fields
-    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+    // Validate all fields before submission
+    const validations = {
+      name: validateField('name', formData.name),
+      email: validateField('email', formData.email),
+      phone: validateField('phone', formData.phone),
+      message: validateField('message', formData.message)
+    };
+
+    // Update validation state
+    setFieldValidation({
+      name: { ...validations.name, isTouched: true },
+      email: { ...validations.email, isTouched: true },
+      phone: { ...validations.phone, isTouched: true },
+      message: { ...validations.message, isTouched: true }
+    });
+
+    // Check if all fields are valid
+    const allValid = Object.values(validations).every(v => v.isValid);
+    
+    if (!allValid) {
       toast({
         title: "Validation Error",
-        description: "Please fill in all required fields.",
+        description: "Please fix the errors in the form before submitting.",
         variant: "destructive"
       });
       return;
@@ -131,15 +220,53 @@ const ContactSection = () => {
   };
 
   /**
-   * Handle input field changes
+   * Handle input field changes with real-time validation
    * Updates form state for controlled components
    */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    
+    // For phone field, only allow numbers, spaces, +, -, and ()
+    let sanitizedValue = value;
+    if (name === 'phone') {
+      sanitizedValue = value.replace(/[^0-9+\-() ]/g, '');
+    }
+    
     setFormData(prevData => ({
       ...prevData,
-      [name]: value
+      [name]: sanitizedValue
     }));
+
+    // Real-time validation on change (only if field has been touched)
+    if (fieldValidation[name as keyof typeof fieldValidation]?.isTouched) {
+      const validation = validateField(name, sanitizedValue);
+      setFieldValidation(prev => ({
+        ...prev,
+        [name]: { ...validation, isTouched: true }
+      }));
+    }
+  };
+
+  /**
+   * Handle field blur for validation
+   */
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    const validation = validateField(name, value);
+    setFieldValidation(prev => ({
+      ...prev,
+      [name]: { ...validation, isTouched: true }
+    }));
+  };
+
+  /**
+   * Get field validation class
+   */
+  const getFieldClass = (fieldName: keyof typeof fieldValidation) => {
+    const field = fieldValidation[fieldName];
+    if (!field.isTouched) return 'glass border-primary/30 bg-background/50 focus:border-primary/60';
+    if (field.isValid) return 'glass border-green-500/50 bg-background/50 focus:border-green-500';
+    return 'glass border-destructive/50 bg-background/50 focus:border-destructive';
   };
 
   return (
@@ -328,78 +455,258 @@ const ContactSection = () => {
 
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               {/* Name Field - Required */}
-              <div>
-                <label htmlFor="name" className="block text-xs sm:text-sm font-medium mb-1.5 text-foreground">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <label htmlFor="name" className="flex items-center gap-2 text-xs sm:text-sm font-medium mb-1.5 text-foreground">
                   Full Name <span className="text-destructive">*</span>
+                  {fieldValidation.name.isTouched && fieldValidation.name.isValid && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="text-green-500"
+                    >
+                      <Check className="w-4 h-4" />
+                    </motion.span>
+                  )}
                 </label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="glass border-primary/30 bg-background/50 focus:border-primary/60 transition-colors text-sm"
-                  placeholder="Enter your full name"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
+                <div className="relative">
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    value={formData.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`${getFieldClass('name')} transition-all duration-300 text-sm pr-10`}
+                    placeholder="Enter your full name"
+                    required
+                    disabled={isSubmitting}
+                  />
+                  <AnimatePresence>
+                    {fieldValidation.name.isTouched && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="absolute right-3 top-1/2 -translate-y-1/2"
+                      >
+                        {fieldValidation.name.isValid ? (
+                          <CheckCircle2 className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-destructive" />
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+                <AnimatePresence>
+                  {fieldValidation.name.isTouched && !fieldValidation.name.isValid && (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="text-xs text-destructive mt-1 flex items-center gap-1"
+                    >
+                      <AlertCircle className="w-3 h-3" />
+                      {fieldValidation.name.error}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
               {/* Email Field - Required */}
-              <div>
-                <label htmlFor="email" className="block text-xs sm:text-sm font-medium mb-1.5 text-foreground">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <label htmlFor="email" className="flex items-center gap-2 text-xs sm:text-sm font-medium mb-1.5 text-foreground">
                   Email Address <span className="text-destructive">*</span>
+                  {fieldValidation.email.isTouched && fieldValidation.email.isValid && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="text-green-500"
+                    >
+                      <Check className="w-4 h-4" />
+                    </motion.span>
+                  )}
                 </label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="glass border-primary/30 bg-background/50 focus:border-primary/60 transition-colors text-sm"
-                  placeholder="your.email@example.com"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
+                <div className="relative">
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`${getFieldClass('email')} transition-all duration-300 text-sm pr-10`}
+                    placeholder="your.email@example.com"
+                    required
+                    disabled={isSubmitting}
+                  />
+                  <AnimatePresence>
+                    {fieldValidation.email.isTouched && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="absolute right-3 top-1/2 -translate-y-1/2"
+                      >
+                        {fieldValidation.email.isValid ? (
+                          <CheckCircle2 className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-destructive" />
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+                <AnimatePresence>
+                  {fieldValidation.email.isTouched && !fieldValidation.email.isValid && (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="text-xs text-destructive mt-1 flex items-center gap-1"
+                    >
+                      <AlertCircle className="w-3 h-3" />
+                      {fieldValidation.email.error}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
               {/* Phone Number Field - Required */}
-              <div>
-                <label htmlFor="phone" className="block text-xs sm:text-sm font-medium mb-1.5 text-foreground">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <label htmlFor="phone" className="flex items-center gap-2 text-xs sm:text-sm font-medium mb-1.5 text-foreground">
                   Phone Number <span className="text-destructive">*</span>
+                  {fieldValidation.phone.isTouched && fieldValidation.phone.isValid && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="text-green-500"
+                    >
+                      <Check className="w-4 h-4" />
+                    </motion.span>
+                  )}
                 </label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="glass border-primary/30 bg-background/50 focus:border-primary/60 transition-colors text-sm"
-                  placeholder="+1 (555) 123-4567"
-                  required
-                  disabled={isSubmitting}
-                />
-              </div>
+                <div className="relative">
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`${getFieldClass('phone')} transition-all duration-300 text-sm pr-10`}
+                    placeholder="+1 (555) 123-4567"
+                    required
+                    disabled={isSubmitting}
+                  />
+                  <AnimatePresence>
+                    {fieldValidation.phone.isTouched && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="absolute right-3 top-1/2 -translate-y-1/2"
+                      >
+                        {fieldValidation.phone.isValid ? (
+                          <CheckCircle2 className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-destructive" />
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+                <AnimatePresence>
+                  {fieldValidation.phone.isTouched && !fieldValidation.phone.isValid && (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="text-xs text-destructive mt-1 flex items-center gap-1"
+                    >
+                      <AlertCircle className="w-3 h-3" />
+                      {fieldValidation.phone.error}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.div>
 
               {/* Message Field - Required */}
-              <div>
-                <label htmlFor="message" className="block text-xs sm:text-sm font-medium mb-1.5 text-foreground">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <label htmlFor="message" className="flex items-center gap-2 text-xs sm:text-sm font-medium mb-1.5 text-foreground">
                   Message <span className="text-destructive">*</span>
+                  {fieldValidation.message.isTouched && fieldValidation.message.isValid && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="text-green-500"
+                    >
+                      <Check className="w-4 h-4" />
+                    </motion.span>
+                  )}
                 </label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="glass border-primary/30 bg-background/50 min-h-[100px] sm:min-h-[120px] focus:border-primary/60 transition-colors resize-none text-sm"
-                  placeholder="Tell me about your project, research interests, or collaboration ideas..."
-                  required
-                  disabled={isSubmitting}
-                />
-                <div className="text-xs text-muted-foreground mt-1">
-                  Characters: {formData.message.length}
+                <div className="relative">
+                  <Textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`${getFieldClass('message')} transition-all duration-300 min-h-[100px] sm:min-h-[120px] resize-none text-sm pr-10`}
+                    placeholder="Tell me about your project, research interests, or collaboration ideas..."
+                    required
+                    disabled={isSubmitting}
+                  />
+                  <AnimatePresence>
+                    {fieldValidation.message.isTouched && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="absolute right-3 top-3"
+                      >
+                        {fieldValidation.message.isValid ? (
+                          <CheckCircle2 className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-destructive" />
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </div>
+                <AnimatePresence>
+                  {fieldValidation.message.isTouched && !fieldValidation.message.isValid && (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="text-xs text-destructive mt-1 flex items-center gap-1"
+                    >
+                      <AlertCircle className="w-3 h-3" />
+                      {fieldValidation.message.error}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+                <div className="text-xs text-muted-foreground mt-1">
+                  Characters: {formData.message.length}/1000
+                </div>
+              </motion.div>
 
               {/* Hidden Fields for EmailJS (automatically populated) */}
               <input type="hidden" name="submission_date" value={new Date().toISOString()} />

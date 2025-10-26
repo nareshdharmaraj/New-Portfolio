@@ -160,6 +160,18 @@ const SkillsSection = () => {
         { name: "Statistics", level: 30 },
         { name: "Data Visualization", level: 40 }
       ]
+    },
+    {
+      title: "Soft Skills",
+      icon: "🤝",
+      skills: [
+        { name: "Time Management", level: 85 },
+        { name: "Analytical Thinking", level: 80 },
+        { name: "Team Collaboration", level: 90 },
+        { name: "Adaptability", level: 85 },
+        { name: "Effective Communication", level: 80 },
+        { name: "Leadership", level: 75 }
+      ]
     }
   ];
 
@@ -226,31 +238,33 @@ const SkillsSection = () => {
           
           {/* Circular 3D Carousel */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={certificatesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={certificatesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <CertificateCarousel itemWidth={200}>
+            <CertificateCarousel itemWidth={220}>
               {certificates.map((cert, index) => (
                 <motion.div
                   key={index}
                   onHoverStart={() => setHoveredIndex(index)}
                   onHoverEnd={() => setHoveredIndex(null)}
-                  className="relative glass-strong p-3 sm:p-4 rounded-lg cursor-pointer group h-full"
+                  className="relative glass-strong p-4 sm:p-5 rounded-xl cursor-pointer group h-full border border-primary/10 hover:border-primary/30 transition-colors duration-300"
                   onClick={() => handleViewCertificate(cert)}
                   whileHover={{ 
-                    scale: 1.05,
-                    transition: { duration: 0.2 }
+                    scale: 1.03,
+                    y: -5,
+                    transition: { duration: 0.3, ease: "easeOut" }
                   }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   {/* Animated background glow */}
                   <motion.div
-                    className="absolute inset-0 rounded-lg bg-gradient-primary opacity-0 group-hover:opacity-20 blur-lg transition-opacity duration-300"
+                    className="absolute inset-0 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
                     animate={hoveredIndex === index ? {
-                      scale: [1, 1.15, 1],
+                      scale: [1, 1.1, 1],
                     } : {}}
                     transition={{
-                      duration: 1.5,
+                      duration: 2,
                       repeat: hoveredIndex === index ? Infinity : 0,
                       ease: "easeInOut"
                     }}
@@ -258,62 +272,86 @@ const SkillsSection = () => {
 
                   {/* Icon with rotation animation */}
                   <motion.div 
-                    className="text-2xl sm:text-3xl mb-2 text-center"
+                    className="text-3xl sm:text-4xl mb-3 text-center relative z-10"
                     animate={hoveredIndex === index ? {
-                      rotate: [0, 360],
-                      scale: [1, 1.2, 1]
+                      rotate: [0, 10, -10, 0],
+                      scale: [1, 1.15, 1]
                     } : {}}
                     transition={{
-                      duration: 0.6,
+                      duration: 0.8,
                       ease: "easeInOut"
                     }}
                   >
                     {cert.icon}
                   </motion.div>
 
-                  <h4 className="text-xs sm:text-sm font-bold mb-1 gradient-text text-center line-clamp-2 min-h-[2rem]">
-                    {cert.title}
-                  </h4>
-                  
                   <motion.div
-                    initial={{ opacity: 0.7 }}
-                    animate={{ opacity: hoveredIndex === index ? 1 : 0.7 }}
+                    animate={hoveredIndex === index ? { y: -2 } : { y: 0 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <p className="text-[10px] sm:text-xs text-primary/70 font-medium mb-0.5 text-center line-clamp-1">
-                      {cert.issuedBy}
-                    </p>
-                    <p className="text-[10px] text-muted-foreground/60 text-center">
-                      {cert.year}
-                    </p>
+                    <h4 className="text-sm sm:text-base font-bold mb-2 gradient-text text-center line-clamp-2 min-h-[2.5rem] relative z-10">
+                      {cert.title}
+                    </h4>
+                    
+                    <motion.div
+                      initial={{ opacity: 0.7 }}
+                      animate={{ opacity: hoveredIndex === index ? 1 : 0.7 }}
+                      transition={{ duration: 0.3 }}
+                      className="relative z-10"
+                    >
+                      <p className="text-xs sm:text-sm text-primary/80 font-medium mb-1 text-center line-clamp-1">
+                        {cert.issuedBy}
+                      </p>
+                      <p className="text-xs text-muted-foreground/70 text-center">
+                        {cert.year}
+                      </p>
+                    </motion.div>
                   </motion.div>
 
                   {/* View button with slide-up animation */}
                   <motion.button
-                    initial={{ y: 5, opacity: 0 }}
+                    initial={{ y: 10, opacity: 0 }}
                     animate={{ 
-                      y: hoveredIndex === index ? 0 : 5, 
+                      y: hoveredIndex === index ? 0 : 10, 
                       opacity: hoveredIndex === index ? 1 : 0 
                     }}
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(99, 102, 241, 0.5)" }}
                     whileTap={{ scale: 0.95 }}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleViewCertificate(cert);
                     }}
-                    className="w-full mt-2 px-2 py-1.5 bg-gradient-primary text-white rounded-full font-medium text-[10px] sm:text-xs shadow-md hover:shadow-lg transition-all duration-300"
+                    className="w-full mt-3 px-3 py-2 bg-gradient-to-r from-primary to-primary/80 text-white rounded-lg font-semibold text-xs sm:text-sm shadow-md hover:shadow-xl transition-all duration-300 relative z-10"
                   >
-                    View
+                    View Certificate
                   </motion.button>
 
-                  {/* Corner accent */}
+                  {/* Corner accent with pulse */}
                   <motion.div
-                    className="absolute top-1 right-1 w-4 h-4 border-t border-r border-primary/30 rounded-tr-lg"
+                    className="absolute top-2 right-2 w-5 h-5 border-t-2 border-r-2 border-primary/40 rounded-tr-lg"
                     animate={hoveredIndex === index ? {
-                      scale: [1, 1.3, 1],
+                      scale: [1, 1.2, 1],
+                      opacity: [0.4, 0.8, 0.4]
                     } : {}}
                     transition={{
-                      duration: 1,
+                      duration: 1.5,
                       repeat: hoveredIndex === index ? Infinity : 0,
+                      ease: "easeInOut"
+                    }}
+                  />
+                  
+                  {/* Bottom accent */}
+                  <motion.div
+                    className="absolute bottom-2 left-2 w-5 h-5 border-b-2 border-l-2 border-secondary/40 rounded-bl-lg"
+                    animate={hoveredIndex === index ? {
+                      scale: [1, 1.2, 1],
+                      opacity: [0.4, 0.8, 0.4]
+                    } : {}}
+                    transition={{
+                      duration: 1.5,
+                      repeat: hoveredIndex === index ? Infinity : 0,
+                      ease: "easeInOut",
+                      delay: 0.3
                     }}
                   />
                 </motion.div>
@@ -329,54 +367,78 @@ const SkillsSection = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4"
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/85 backdrop-blur-md z-[100] flex items-center justify-center p-4"
               onClick={() => setSelectedCertificate(null)}
             >
               <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ type: "spring", duration: 0.5 }}
-                className="relative bg-background/95 rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden"
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="relative bg-background/98 backdrop-blur-xl rounded-3xl shadow-2xl border border-primary/20 max-w-6xl w-full max-h-[90vh] overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Close Button */}
-                <button
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setSelectedCertificate(null)}
-                  className="absolute top-4 right-4 z-10 p-2 rounded-full bg-background/80 hover:bg-background transition-colors shadow-lg"
+                  className="absolute top-4 right-4 z-10 p-2.5 rounded-full bg-background/90 hover:bg-primary/20 border border-primary/30 transition-colors shadow-lg group"
                 >
-                  <X className="w-6 h-6" />
-                </button>
+                  <X className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </motion.button>
 
                 {/* Certificate Header */}
-                <div className="p-6 border-b border-border/50">
-                  <h3 className="text-2xl font-bold gradient-text mb-2">
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="p-6 sm:p-8 border-b border-border/50 bg-gradient-to-r from-primary/5 to-secondary/5"
+                >
+                  <h3 className="text-2xl sm:text-3xl font-bold gradient-text mb-3">
                     {selectedCertificate.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Issued by: <span className="text-primary font-medium">{selectedCertificate.issuedBy}</span>
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Year: <span className="text-primary font-medium">{selectedCertificate.year}</span>
-                  </p>
-                </div>
+                  <div className="flex flex-wrap gap-4 text-sm">
+                    <p className="text-muted-foreground">
+                      Issued by: <span className="text-primary font-semibold">{selectedCertificate.issuedBy}</span>
+                    </p>
+                    <p className="text-muted-foreground">
+                      Year: <span className="text-primary font-semibold">{selectedCertificate.year}</span>
+                    </p>
+                  </div>
+                </motion.div>
 
                 {/* Certificate Image/PDF Viewer */}
-                <div className="p-6 overflow-auto max-h-[calc(90vh-200px)] scrollbar-hide">
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="p-6 sm:p-8 overflow-auto max-h-[calc(90vh-200px)] scrollbar-hide"
+                >
                   {selectedCertificate.certificateImage?.endsWith('.pdf') ? (
-                    <iframe
+                    <motion.iframe
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3 }}
                       src={selectedCertificate.certificateImage}
-                      className="w-full h-[600px] rounded-lg border border-border/50"
+                      className="w-full h-[600px] rounded-xl border border-border/50 shadow-lg"
                       title={selectedCertificate.title}
                     />
                   ) : selectedCertificate.certificateImage ? (
-                    <img
+                    <motion.img
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3 }}
                       src={selectedCertificate.certificateImage}
                       alt={selectedCertificate.title}
-                      className="w-full h-auto rounded-lg shadow-lg object-contain"
+                      className="w-full h-auto rounded-xl shadow-2xl object-contain"
                     />
                   ) : null}
-                </div>
+                </motion.div>
               </motion.div>
             </motion.div>
           )}
