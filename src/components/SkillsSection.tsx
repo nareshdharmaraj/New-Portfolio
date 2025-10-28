@@ -176,7 +176,13 @@ const SkillsSection = () => {
   ];
 
   const handleViewCertificate = (certificate: Certificate) => {
-    setSelectedCertificate(certificate);
+    // For PDFs, open in new tab directly
+    if (certificate.certificateImage?.endsWith('.pdf')) {
+      window.open(certificate.certificateImage, '_blank', 'noopener,noreferrer');
+    } else {
+      // For images, show in modal
+      setSelectedCertificate(certificate);
+    }
   };
 
   return (
