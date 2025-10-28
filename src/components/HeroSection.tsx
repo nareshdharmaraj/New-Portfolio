@@ -6,8 +6,10 @@ import { ArrowDown, Sparkles, Zap, Target, FileText } from 'lucide-react';
 // Titles to cycle through with typewriter effect
 const TITLES = [
   'AI & Data Science Engineer',
-  'Web Developer','Problem Solver',
-  'Innovation Ambassador'
+  'Web Developer',
+  'Problem Solver',
+  'Innovation Ambassador',
+  'Freelancer'
 ];
 
 const HeroSection = () => {

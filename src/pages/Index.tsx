@@ -12,6 +12,7 @@ import FamilySection from '@/components/FamilySection';
 import ContactSection from '@/components/ContactSection';
 import EnhancedMiniNaresh from '@/components/EnhancedMiniNaresh';
 import TargetCursor from '@/components/TargetCursor';
+import FreelancePopup from '@/components/FreelancePopup';
 
 const Index = () => {
   return (
@@ -79,6 +80,9 @@ const Index = () => {
       </main>
       
       <EnhancedMiniNaresh />
+      
+      {/* Freelance Popup - Shows after 10 seconds */}
+      <FreelancePopup />
       
       {/* Responsive Footer */}
       <footer className="py-6 sm:py-8 border-t border-white/10">
